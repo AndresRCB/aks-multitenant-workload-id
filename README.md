@@ -25,8 +25,8 @@ key_vault_name = "your-keyvault-name-testkv2"
 ```sh
 subscription_id = "SUBSCRIPTION_ID"
 tenant_id = "TENANT_ID"
-subscription_id = "SUBSCRIPTION_ID2"
-tenant_id = "TENANT_ID2"
+subscription_id2 = "SUBSCRIPTION_ID2"
+tenant_id2 = "TENANT_ID2"
 ```
 
 Then, run the following command:
