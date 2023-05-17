@@ -1,5 +1,6 @@
 locals {
   secret_provider_class_name = "azure-csi-prov-kv"
+  secret_provider_class_name2 = "azure-csi-prov-kv2"
   deployment_name = "key-vault-client"
 }
 
@@ -60,9 +61,41 @@ resource "kubernetes_manifest" "secret_provider_class" {
   }
 }
 
+resource "kubernetes_manifest" "secret_provider_class2" {
+  depends_on = [
+    azurerm_federated_identity_credential.secondary,
+    data.azurerm_kubernetes_cluster.main
+  ]
+
+  manifest = {
+    apiVersion = "secrets-store.csi.x-k8s.io/v1"
+    kind       = "SecretProviderClass"
+    metadata = {
+      namespace = kubernetes_namespace.main.id
+      name = local.secret_provider_class_name2
+    }
+
+    spec = {
+      provider = "azure"
+      parameters = {
+        tenantID = var.tenant_id2
+        clientID = azurerm_user_assigned_identity.secondary.client_id
+        keyvaultName = var.key_vault_name2
+        objects = <<EOF
+          array:
+            - |
+              objectName: ${var.secret_name2}
+              objectType: secret
+        EOF
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment" "main" {
   depends_on = [
-    time_sleep.federated_identity_credential
+    time_sleep.federated_identity_credential,
+    time_sleep.federated_identity_credential2
   ]
 
   metadata {
@@ -101,6 +134,11 @@ resource "kubernetes_deployment" "main" {
             name = "secrets-mount"
             read_only = true
           }
+          volume_mount {
+            mount_path = "mnt/secrets-store2"
+            name = "secrets-mount2"
+            read_only = true
+          }
         }
         volume {
           name = "secrets-mount"
@@ -109,6 +147,16 @@ resource "kubernetes_deployment" "main" {
             read_only = true
             volume_attributes = {
               secretProviderClass = local.secret_provider_class_name
+            }
+          }
+        }
+        volume {
+          name = "secrets-mount2"
+          csi {
+            driver = "secrets-store.csi.k8s.io"
+            read_only = true
+            volume_attributes = {
+              secretProviderClass = local.secret_provider_class_name2
             }
           }
         }
