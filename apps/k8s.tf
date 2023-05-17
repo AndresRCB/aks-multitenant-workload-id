@@ -1,0 +1,118 @@
+locals {
+  secret_provider_class_name = "azure-csi-prov-kv"
+  deployment_name = "key-vault-client"
+}
+
+data "azurerm_client_config" "current" {}
+
+resource "kubernetes_service_account" "main" {
+  metadata {
+    name      = var.kubernetes_service_account_name
+    namespace = kubernetes_namespace.main.id
+    annotations = {
+      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.main.client_id
+    }
+    labels = {
+      "azure.workload.identity/use" : "true"
+    }
+  }
+}
+
+resource "kubernetes_namespace" "main" {
+  metadata {
+    annotations = {
+      name = var.kubernetes_namespace_name
+    }
+
+    name = var.kubernetes_namespace_name
+  }
+}
+
+
+resource "kubernetes_manifest" "secret_provider_class" {
+  depends_on = [
+    azurerm_federated_identity_credential.main,
+    data.azurerm_kubernetes_cluster.main
+  ]
+
+  manifest = {
+    apiVersion = "secrets-store.csi.x-k8s.io/v1"
+    kind       = "SecretProviderClass"
+    metadata = {
+      namespace = kubernetes_namespace.main.id
+      name = local.secret_provider_class_name
+    }
+
+    spec = {
+      provider = "azure"
+      parameters = {
+        tenantID = data.azurerm_client_config.current.tenant_id
+        clientID = azurerm_user_assigned_identity.main.client_id
+        keyvaultName = var.key_vault_name
+        objects = <<EOF
+          array:
+            - |
+              objectName: ${var.secret_name}
+              objectType: secret
+        EOF
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "main" {
+  depends_on = [
+    time_sleep.federated_identity_credential
+  ]
+
+  metadata {
+    name = local.deployment_name
+    labels = {
+      "app" = "nginx"
+      "azure.workload.identity/use" = "true"
+    }
+    namespace = kubernetes_namespace.main.id
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = "nginx"
+      }
+    }
+    
+    template {
+      metadata {
+        labels = {
+          app = "nginx"
+        }
+      }
+
+      spec {
+        service_account_name = kubernetes_service_account.main.metadata[0].name
+        container {
+          name = "main"
+          image = "nginx:latest"
+          image_pull_policy = "Always"
+          volume_mount {
+            mount_path = "mnt/secrets-store"
+            name = "secrets-mount"
+            read_only = true
+          }
+        }
+        volume {
+          name = "secrets-mount"
+          csi {
+            driver = "secrets-store.csi.k8s.io"
+            read_only = true
+            volume_attributes = {
+              secretProviderClass = local.secret_provider_class_name
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,9 @@
 # Local .terraform directories
 **/.terraform/*
 
+# Ignoring lock file because this is a demo/sample repo
+.terraform.lock.hcl
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
@@ -32,3 +35,17 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# python virtual env
+.venv/
+.env/
+.envrc
+.denv
+
+
+scratch
+__pycache__/
+
+# local cli creds if setting export AZURE_CONFIG_DIR=$PWD/.azure
+.azure/
+.terragrunt*
