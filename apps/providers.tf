@@ -6,6 +6,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.42"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.39"
+    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "~> 2.19"
@@ -18,6 +22,10 @@ provider "kubernetes" {
   client_certificate     = base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_certificate)
   client_key             = base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.client_key)
   cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.cluster_ca_certificate)
+}
+
+provider "azuread" {
+  tenant_id = var.tenant_id
 }
 
 provider "azurerm" {
@@ -36,6 +44,11 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+}
+
+provider "azuread" {
+  alias = "secondary"
+  tenant_id = var.tenant_id2
 }
 
 provider "azurerm" {

@@ -11,7 +11,7 @@ resource "kubernetes_service_account" "main" {
     name      = var.kubernetes_service_account_name
     namespace = kubernetes_namespace.main.id
     annotations = {
-      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.main.client_id
+      "azure.workload.identity/client-id" = azuread_service_principal.main.application_id
     }
     labels = {
       "azure.workload.identity/use" : "true"
@@ -32,7 +32,7 @@ resource "kubernetes_namespace" "main" {
 
 resource "kubernetes_manifest" "secret_provider_class" {
   depends_on = [
-    azurerm_federated_identity_credential.main,
+    time_sleep.federated_identity_credential,
     data.azurerm_kubernetes_cluster.main
   ]
 
@@ -48,7 +48,7 @@ resource "kubernetes_manifest" "secret_provider_class" {
       provider = "azure"
       parameters = {
         tenantID = data.azurerm_client_config.current.tenant_id
-        clientID = azurerm_user_assigned_identity.main.client_id
+        clientID = azuread_service_principal.main.application_id
         keyvaultName = var.key_vault_name
         objects = <<EOF
           array:
@@ -63,7 +63,7 @@ resource "kubernetes_manifest" "secret_provider_class" {
 
 resource "kubernetes_manifest" "secret_provider_class2" {
   depends_on = [
-    azurerm_federated_identity_credential.secondary,
+    time_sleep.federated_identity_credential,
     data.azurerm_kubernetes_cluster.main
   ]
 
@@ -79,7 +79,7 @@ resource "kubernetes_manifest" "secret_provider_class2" {
       provider = "azure"
       parameters = {
         tenantID = var.tenant_id2
-        clientID = azurerm_user_assigned_identity.secondary.client_id
+        clientID = azuread_service_principal.secondary.application_id
         keyvaultName = var.key_vault_name2
         objects = <<EOF
           array:
@@ -95,7 +95,7 @@ resource "kubernetes_manifest" "secret_provider_class2" {
 resource "kubernetes_deployment" "main" {
   depends_on = [
     time_sleep.federated_identity_credential,
-    time_sleep.federated_identity_credential2
+    # time_sleep.federated_identity_credential2
   ]
 
   metadata {

@@ -16,6 +16,7 @@ dependency "keyvault" {
   mock_outputs = {
     secret_name = "mock-secret"
     key_vault_name = "mock-keyvault"
+    resource_group_name = "mock-rg"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "init"]
 }
@@ -25,6 +26,7 @@ dependency "keyvault2" {
   mock_outputs = {
     secret_name = "mock-secret"
     key_vault_name = "mock-keyvault"
+    resource_group_name = "mock-rg"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "init"]
 }
