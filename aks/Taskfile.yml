@@ -5,6 +5,7 @@ tasks:
     aliases: [apply]
     cmds:
       - rm -f .terraform.lock.hcl
+      - rm -rf .terragrunt-cache
       - terragrunt apply -auto-approve --terragrunt-non-interactive
       - terragrunt output -raw environment_variable_setup > .env
     sources:

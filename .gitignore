@@ -49,3 +49,10 @@ __pycache__/
 # local cli creds if setting export AZURE_CONFIG_DIR=$PWD/.azure
 .azure/
 .terragrunt*
+
+# env files
+.env
+.envrc
+.direnv
+
+.task/
