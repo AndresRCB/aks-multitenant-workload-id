@@ -33,7 +33,7 @@ dependency "keyvault2" {
 
 
 terraform {
-  source = ".//"
+  source = ".///"
 }
 
 inputs = merge(dependency.aks.outputs, dependency.keyvault.outputs, {

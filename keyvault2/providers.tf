@@ -13,8 +13,8 @@ terraform {
 }
 
 provider "azurerm" {
-  subscription_id = var.subscription_id
-  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id2
+  tenant_id       = var.tenant_id2
 
   features {
     key_vault {

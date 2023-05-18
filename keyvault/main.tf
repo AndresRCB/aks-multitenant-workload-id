@@ -9,55 +9,23 @@ data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
 
-resource "azurerm_key_vault" "main" {
-  name                = var.key_vault_name
-  resource_group_name = data.azurerm_resource_group.main.name
-  location            = data.azurerm_resource_group.main.location
-  tenant_id           = data.azurerm_client_config.current.tenant_id
-
-  sku_name = "standard"
-  tags = {}
+resource "random_pet" "test_name_1" {
+  length    = 2
+  separator = "-"
+  prefix    = "one"
 }
 
-resource "azurerm_key_vault_access_policy" "creator" {
-  key_vault_id = azurerm_key_vault.main.id
-  object_id = data.azurerm_client_config.current.object_id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-
-  certificate_permissions = [
-    "Get",
-    "List",
-    "Create",
-    "Delete",
-    "Purge",
-    "Recover",
-    "Restore"
-  ]
-
-  key_permissions = [
-    "Get",
-    "List",
-    "Create",
-    "Delete",
-    "Purge"
-  ]
-
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-    "Delete",
-    "Purge"
-  ]
+module "key_vault_one" {
+  source                 = "../modules/keyvault"
+  kv_resource_group_name = data.azurerm_resource_group.main.name
+  kv_key_vault_name      = random_pet.test_name_1.id
+  kv_tenant_id           = data.azurerm_client_config.current.tenant_id
+  kv_subscription_id     = data.azurerm_client_config.current.subscription_id
 }
 
 resource "azurerm_key_vault_secret" "main" {
   name         = local.secret_name
   value        = local.secret_value
-  key_vault_id = azurerm_key_vault.main.id
-
-  depends_on = [
-    azurerm_key_vault_access_policy.creator
-  ]
+  key_vault_id = module.key_vault_one.key_vault_idz
 }
 

@@ -1,0 +1,30 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  aks: ./aks/Taskfile.yml
+  apps: ./apps/Taskfile.yml
+
+tasks:
+  default:
+    summary: "Default task TODO figure out the tfvars situation"
+    aliases:
+      - "apply"
+    cmds:
+      - terragrunt run-all apply -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive --terragrunt-debug  
+    silent: false
+
+
+  clean:
+    cmds:
+      - task aks:clean
+      - task apps:clean
+
+
+  kill:
+    cmds:
+      - rm -rf aks/.terraform aks/.terragrunt-cache aks/.env aks/.terraform.lock.hcl aks/.task aks/terragrunt-debug.tfvars.json
+      - rm -rf keyvault/.terragrunt-cache keyvault/.terraform.lock.hcl keyvault/terragrunt-debug.tfvars.json
+      - rm -rf keyvault2/.terragrunt-cache keyvault2/.terraform.lock.hcl keyvault2/terragrunt-debug.tfvars.json
+      - rm -rf apps/.terraform apps/.terragrunt-cache apps/.terraform.lock.hcl apps/.task

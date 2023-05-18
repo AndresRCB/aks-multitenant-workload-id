@@ -11,7 +11,7 @@ dependency "aks" {
 }
 
 terraform {
-  source = "./"
+  source = "..//modules"
 }
 
 inputs = dependency.aks.outputs
