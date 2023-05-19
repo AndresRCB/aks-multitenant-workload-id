@@ -77,6 +77,7 @@ tasks:
     cmds:
       - az group delete --no-wait -y -n {{.RG1}}
       - az group delete --no-wait -y -n {{.RG2}} --subscription {{.demo_subscription_id2}}
+      - az ad app delete --id {{.APP1}}
       # TODO: need cleanup of the Applications
       - task: killfiles
     vars:
@@ -84,4 +85,6 @@ tasks:
         sh: terragrunt output -raw resource_group_name --terragrunt-working-dir ./aks
       RG2:
         sh: terragrunt output -raw resource_group_name --terragrunt-working-dir ./keyvault2
+      APP1:
+        sh: terragrunt output -raw aad_application_id --terragrunt-working-dir ./apps
     
