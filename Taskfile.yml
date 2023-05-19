@@ -77,6 +77,7 @@ tasks:
     cmds:
       - az group delete --no-wait -y -n {{.RG1}}
       - az group delete --no-wait -y -n {{.RG2}} --subscription {{.demo_subscription_id2}}
+      # TODO: need cleanup of the Applications
       - task: killfiles
     vars:
       RG1:
