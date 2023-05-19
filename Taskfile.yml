@@ -71,7 +71,7 @@ tasks:
 
   destroy:
     cmds:
-      - terragrunt run-all destroy -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive
+      - terragrunt run-all destroy -auto-approve --terragrunt-non-interactive
 
   kill:
     cmds:
