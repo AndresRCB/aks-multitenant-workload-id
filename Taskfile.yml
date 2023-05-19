@@ -1,6 +1,6 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 
 includes:
   aks: ./aks/Taskfile.yml
@@ -12,8 +12,25 @@ tasks:
     aliases:
       - "apply"
     cmds:
-      - terragrunt run-all apply -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive --terragrunt-debug --terragrunt-log-level debug
+      - terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-debug --terragrunt-log-level debug
     silent: false
+
+
+  verify:
+    cmds:
+      - task check
+    deps:
+      - creds
+
+  creds:
+    dir: ./aks
+    cmds:
+      - task creds
+ 
+  check:
+    dir: ./apps
+    cmds:
+      - task check
 
   clean:
     cmds:
@@ -21,13 +38,19 @@ tasks:
       - task apps:clean
 
   kill:
+    desc: Removes various state files and caches
     cmds:
+      - rm -f terraform.tfstate
       - rm -rf aks/.terraform aks/.terragrunt-cache aks/.env aks/.terraform.lock.hcl aks/.task aks/terragrunt-debug.tfvars.json
       - rm -rf keyvault/.terragrunt-cache keyvault/.terraform.lock.hcl keyvault/terragrunt-debug.tfvars.json
       - rm -rf keyvault2/.terragrunt-cache keyvault2/.terraform.lock.hcl keyvault2/terragrunt-debug.tfvars.json
       - rm -rf apps/.terraform apps/.terragrunt-cache apps/.terraform.lock.hcl apps/terragrunt-debug.tfvars.json apps/.task
 
-
   destroy:
     cmds:
       - terragrunt run-all destroy -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive
+
+  plan:
+    cmds:
+      # - terragrunt run-all plan --terragrunt-exclude-dir ./apps --terragrunt-exclude-dir ./keyvault --terragrunt-non-interactive --terragrunt-log-level debug
+      - terragrunt run-all plan --terragrunt-non-interactive --terragrunt-log-level trace

@@ -9,16 +9,15 @@ data "azurerm_resource_group" "main" {
   name = var.resource_group_name
 }
 
-resource "random_pet" "test_name_1" {
+resource "random_pet" "kv_name" {
   length    = 2
   separator = "-"
-  prefix    = "one"
 }
 
 module "key_vault_one" {
   source                 = "../modules/keyvault"
   kv_resource_group_name = data.azurerm_resource_group.main.name
-  kv_key_vault_name      = random_pet.test_name_1.id
+  kv_key_vault_name      = random_pet.kv_name.id
   kv_tenant_id           = data.azurerm_client_config.current.tenant_id
   kv_subscription_id     = data.azurerm_client_config.current.subscription_id
 }

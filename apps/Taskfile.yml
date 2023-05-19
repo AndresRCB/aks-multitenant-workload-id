@@ -18,6 +18,17 @@ tasks:
     generates:
       - .env
 
+  check:
+    silent: true
+    cmds:
+      - echo "secret1= {{.CMD1}}"
+      - echo "secret2= {{.CMD2}}"
+
+    vars:
+      CMD1:
+        sh: $(terragrunt output -raw print_key_vault_secret_command --terragrunt-no-auto-init)
+      CMD2:
+        sh: $(terragrunt output -raw print_key_vault_secret_command2 --terragrunt-no-auto-init)
   clean:
     cmds:
       - terragrunt destroy -auto-approve -refresh=false --terragrunt-non-interactive

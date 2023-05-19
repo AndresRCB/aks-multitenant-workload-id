@@ -6,8 +6,9 @@ terraform {
   source = "..//modules"
 }
 
-#inputs = {
-#    tenant_id2 = "kv2tenant" #get_env("TF_VAR_tenant_id2")
-#    subscription_id2 = "kv2sub" # get_env("TF_VAR_subscription_id2")
-#}
-
+inputs = {
+  resource_group_location    = get_env("demo_location", "eastus2")
+  subscription_id            = get_env("demo_subscription_id2")
+  tenant_id                  = get_env("demo_tenant_id2")
+  resource_group_name_prefix = get_env("demo_resource_group_name_prefix", "rg-aadwi-secondary")
+}

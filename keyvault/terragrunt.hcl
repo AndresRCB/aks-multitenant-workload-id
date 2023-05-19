@@ -14,4 +14,8 @@ terraform {
   source = "..//modules"
 }
 
-inputs = dependency.aks.outputs
+inputs = merge(
+  dependency.aks.outputs,
+  {
+  }
+)

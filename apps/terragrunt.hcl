@@ -6,7 +6,7 @@ dependency "aks" {
   config_path = "../aks"
   mock_outputs = {
     resource_group_name = "mock-rg"
-    cluster_name = "mock-aks"
+    cluster_name        = "mock-aks"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "init"]
 }
@@ -14,8 +14,8 @@ dependency "aks" {
 dependency "keyvault" {
   config_path = "../keyvault"
   mock_outputs = {
-    secret_name = "mock-secret"
-    key_vault_name = "mock-keyvault"
+    secret_name         = "mock-secret"
+    key_vault_name      = "mock-keyvault"
     resource_group_name = "mock-rg"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "init"]
@@ -24,8 +24,8 @@ dependency "keyvault" {
 dependency "keyvault2" {
   config_path = "../keyvault2"
   mock_outputs = {
-    secret_name = "mock-secret"
-    key_vault_name = "mock-keyvault"
+    secret_name         = "mock-secret"
+    key_vault_name      = "mock-keyvault"
     resource_group_name = "mock-rg"
   }
   mock_outputs_allowed_terraform_commands = ["validate", "init"]
@@ -38,6 +38,11 @@ terraform {
 
 inputs = merge(dependency.aks.outputs, dependency.keyvault.outputs, {
   resource_group_name2 = dependency.keyvault2.outputs.resource_group_name
-  key_vault_name2 = dependency.keyvault2.outputs.key_vault_name
-  secret_name2 = dependency.keyvault2.outputs.secret_name
+  key_vault_name2      = dependency.keyvault2.outputs.key_vault_name
+  secret_name2         = dependency.keyvault2.outputs.secret_name
+  tenant_id            = get_env("demo_tenant_id")
+  subscription_id      = get_env("demo_subscription_id")
+  tenant_id2           = get_env("demo_tenant_id2")
+  subscription_id2     = get_env("demo_subscription_id2")
+
 })

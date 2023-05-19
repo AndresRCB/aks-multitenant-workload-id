@@ -1,31 +1,30 @@
 locals {
-  secret_name = "randomSecret"
+  secret_name  = "randomSecret"
   secret_value = "AKSWIandKeyVaultIntegrated 2!"
 }
 
 data "azurerm_client_config" "current" {}
 
 resource "random_pet" "rg_name" {
-  prefix = "rg-aadwi-secondary"
+  prefix = var.resource_group_name_prefix
 }
 
-resource "random_pet" "test_name_2" {
+resource "random_pet" "kv_name" {
   length    = 2
   separator = "-"
-  prefix    = "one"
 }
 
 resource "azurerm_resource_group" "main" {
-  name     = random_pet.rg_name.id
   location = var.resource_group_location
+  name     = random_pet.rg_name.id
 }
 
 module "key_vault_two" {
   source                 = "../modules/keyvault"
   kv_resource_group_name = azurerm_resource_group.main.name
-  kv_key_vault_name      = random_pet.test_name_2.id
-  kv_tenant_id           = var.tenant_id2
-  kv_subscription_id     = var.subscription_id2
+  kv_key_vault_name      = random_pet.kv_name.id
+  kv_tenant_id           = var.tenant_id
+  kv_subscription_id     = var.subscription_id
 }
 
 resource "azurerm_key_vault_secret" "main" {

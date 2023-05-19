@@ -11,11 +11,11 @@ output "environment_variable_setup" {
 }
 
 output "print_key_vault_secret_command" {
-  value = "kubectl exec -it deploy/${local.deployment_name} -n ${kubernetes_namespace.main.id} -- cat /mnt/secrets-store/${var.secret_name}"
+  value = "kubectl exec -i deploy/${local.deployment_name} -n ${kubernetes_namespace.main.id} -- cat /mnt/secrets-store/${var.secret_name}"
   description = "Command to print the key vault secret mounted in the kubernetes client deployment (a test)"
 }
 
 output "print_key_vault_secret_command2" {
-  value = "kubectl exec -it deploy/${local.deployment_name} -n ${kubernetes_namespace.main.id} -- cat /mnt/secrets-store2/${var.secret_name2}"
+  value = "kubectl exec -i deploy/${local.deployment_name} -n ${kubernetes_namespace.main.id} -- cat /mnt/secrets-store2/${var.secret_name2}"
   description = "Command to print the secondary key vault secret mounted in the kubernetes client deployment (a test)"
 }

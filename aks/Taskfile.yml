@@ -19,7 +19,7 @@ tasks:
   
   creds:
     cmds:
-      - $(terragrunt output -raw cluster_credentials_command)
+      - $(terragrunt output -raw cluster_credentials_command) --overwrite-existing
 
   clean:
     cmds:
