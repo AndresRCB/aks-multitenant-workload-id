@@ -23,7 +23,6 @@ tasks:
     cmds:
       - echo "secret1= {{.CMD1}}"
       - echo "secret2= {{.CMD2}}"
-
     vars:
       CMD1:
         sh: $(terragrunt output -raw print_key_vault_secret_command --terragrunt-no-auto-init)

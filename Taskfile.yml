@@ -15,7 +15,6 @@ tasks:
       - terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-debug --terragrunt-log-level debug
     silent: false
 
-
   verify:
     cmds:
       - task check
@@ -37,7 +36,7 @@ tasks:
       - task aks:clean
       - task apps:clean
 
-  kill:
+  killfiles:
     desc: Removes various state files and caches
     cmds:
       - rm -f terraform.tfstate
@@ -50,7 +49,14 @@ tasks:
     cmds:
       - terragrunt run-all destroy -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive
 
-  plan:
+  kill:
     cmds:
-      # - terragrunt run-all plan --terragrunt-exclude-dir ./apps --terragrunt-exclude-dir ./keyvault --terragrunt-non-interactive --terragrunt-log-level debug
-      - terragrunt run-all plan --terragrunt-non-interactive --terragrunt-log-level trace
+      - az group delete --no-wait -y -n {{.RG1}}
+      - az group delete --no-wait -y -n {{.RG2}} --subscription {{.demo_subscription_id2}}
+      - task: killfiles
+    vars:
+      RG1:
+        sh: terragrunt output -raw resource_group_name --terragrunt-working-dir ./aks
+      RG2:
+        sh: terragrunt output -raw resource_group_name --terragrunt-working-dir ./keyvault2
+    

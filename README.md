@@ -27,7 +27,7 @@ az account list -o table --all --query "[].{TenantID: tenantId, Subscription: na
 ```
 
 
-## Creating infrastructure
+## Creating infrastructure [DEPRECATED]
 A few variables might be required and not provided by default in these modules. To avoid having to pass the value every time, simple create a terraform.tfvars file in each module that requires these variables. The main ones are:
 - keyvault/terraform.tfvars:
 ```sh
@@ -50,6 +50,34 @@ tenant_id2 = "TENANT_ID2"
 Then, run the following command:
 ```sh
 terragrunt run-all apply --auto-approve
+```
+
+## Setting up Environment Variables
+
+Easiest way is to create a file -- as an example `.envrc` in the root of the repo. In that file add your Subscription and Tenant information for BOTH subscriptions/tenants.
+
+```bash
+## REQUIRED
+# primary tenant
+export demo_tenant_id="GUID OF PRIMARY TENANT"
+export demo_subscription_id="GUID OF SUBSCRIPTION"
+# secondary tenant
+export demo_tenant_id2="GUID OF SECONDARY TENANT"
+export demo_subscription_id2="GUID OF SECONDARY SUBSCRIPTION"
+
+## OVERIDES - OPTIONAL
+# set these to make the resource groups easier to find
+export demo_resource_group_name_prefix="spc"
+export demo_cluster_name="spc-aks-22"
+
+## AZURE CLI CONFIG - OPTIONAL
+# this allows your az cli credential local files to be transient not affecting your ~/.azure location
+export AZURE_CONFIG_DIR="$PWD/.azure"
+
+## TERRAFORM - OPTIONAL
+# these are if you need to enable further terrafrom tracing
+# export TF_LOG="TRACE"
+# export TF_LOG_PATH="$PWD/.terraform/terraform.log"
 ```
 
 ## Azure Active Directory (AAD) and Multitenancy
@@ -79,3 +107,20 @@ cd ..
 >NOTE: you can ignore a warning: `WARN[0000] Detected that init is needed, but Auto-Init is disabled.` from the above commands as if all steps followed, the terraform state exists already.
 
 **Enjoy.**  :smile:
+
+
+## Using Tasks
+
+First make sure you've completed the logon steps above ensuring you logged on via the Azure CLI for two different subscriptions that should span Tenants. Again, you must be at least a member of those tenants with ability to create Azure Resources and in the primary subscription be an `Application Adminstrator` in Azure AD.
+
+### Deployment
+
+From the root run `task apply`
+
+### Testing Workload Identity Access
+
+After you've run the fully deployment, you can verify success by running a verification step. From the root of the repo run: `task verify` 
+
+### Fast Cleanup
+
+Quickest way is `task kill`
