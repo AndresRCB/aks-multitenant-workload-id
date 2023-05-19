@@ -12,19 +12,22 @@ tasks:
     aliases:
       - "apply"
     cmds:
-      - terragrunt run-all apply -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive --terragrunt-debug  
+      - terragrunt run-all apply -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive --terragrunt-debug --terragrunt-log-level debug
     silent: false
-
 
   clean:
     cmds:
       - task aks:clean
       - task apps:clean
 
-
   kill:
     cmds:
       - rm -rf aks/.terraform aks/.terragrunt-cache aks/.env aks/.terraform.lock.hcl aks/.task aks/terragrunt-debug.tfvars.json
       - rm -rf keyvault/.terragrunt-cache keyvault/.terraform.lock.hcl keyvault/terragrunt-debug.tfvars.json
       - rm -rf keyvault2/.terragrunt-cache keyvault2/.terraform.lock.hcl keyvault2/terragrunt-debug.tfvars.json
-      - rm -rf apps/.terraform apps/.terragrunt-cache apps/.terraform.lock.hcl apps/.task
+      - rm -rf apps/.terraform apps/.terragrunt-cache apps/.terraform.lock.hcl apps/terragrunt-debug.tfvars.json apps/.task
+
+
+  destroy:
+    cmds:
+      - terragrunt run-all destroy -auto-approve -var-file $(pwd)/terraform.tfvars --terragrunt-non-interactive
