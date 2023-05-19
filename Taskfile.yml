@@ -8,12 +8,36 @@ includes:
 
 tasks:
   default:
-    summary: "Default task TODO figure out the tfvars situation"
+    summary: runs terraform apply for all sub terraform projects
+    dotenv: ['.env', '.envrc.']
+    deps:
+      - checkenv
     aliases:
       - "apply"
     cmds:
       - terragrunt run-all apply -auto-approve --terragrunt-non-interactive --terragrunt-debug --terragrunt-log-level debug
     silent: false
+
+
+  checkenv:
+    silent: true
+    dotenv: ['.env', '.envrc.']
+    cmds:
+      - |
+        # List the environment variables you want to check
+        variables=("demo_tenant_id" "demo_subscription_id" "demo_tenant_id2" "demo_subscription_id2")
+        for var in "${variables[@]}"
+        do
+          if [[ -z "${!var}" ]]; then
+            echo -e "\033[31mERROR:\033[0m Environment variable \033[33m $var \033[0m is not set"
+            for var in "${variables[@]}"
+            do
+              echo -e "\033[33m $var \033[0m = ${!var}"
+            done
+            exit 1
+          fi
+        done
+        echo "All variables are set"
 
   verify:
     cmds:
