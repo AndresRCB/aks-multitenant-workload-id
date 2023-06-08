@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    azure:
+      eventhubs:
+        namespace: testtenant1
+        credential:
+          managed-identity-enabled: true
+        processor:
+          checkpoint-store:
+            account-name: testb39d
+            container-name: testehevents
+            account-key: zNPxrwZ3NbiKfkaF8cYDNxFQkykWgemN2+dQ1pfS/1V6ZOU0bQhrrELxufyAk3/1emrB6fmP4qmS+AStoz7OtA==
+          consumer-group: $Default
+        event-hub-name: testtenant1eh
+    stream:
+      bindings:
+        produce-out-0:
+          destination: testtenant1eh
+      poller:
+        fixed-delay: 10000  #default is 1sec
+    function:
+      definition: produce;
+server:
+  port: 8081
