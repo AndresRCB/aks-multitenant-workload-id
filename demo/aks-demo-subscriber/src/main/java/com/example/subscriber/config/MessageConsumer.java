@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import com.azure.spring.messaging.checkpoint.Checkpointer;
+import org.springframework.messaging.MessageHeaders;
 
 import java.util.function.Consumer;
 
@@ -29,20 +30,23 @@ public class MessageConsumer {
     @Bean
     Consumer<Message<String>> consume() {
         return message -> {
-            Checkpointer checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
-            LOGGER.info("New message received: '{}', partition key: {}, sequence number: {}, offset: {}, enqueued time: {}",
-                    message.getPayload(),
-                    message.getHeaders().get(EventHubsHeaders.PARTITION_KEY),
-                    message.getHeaders().get(EventHubsHeaders.SEQUENCE_NUMBER),
-                    message.getHeaders().get(EventHubsHeaders.OFFSET),
-                    message.getHeaders().get(EventHubsHeaders.ENQUEUED_TIME)
-            );
+            if (message != null) {
+                Checkpointer checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
+                if (checkpointer != null) {
+                    LOGGER.info("New message received: '{}', partition key: {}, sequence number: {}, offset: {}, enqueued time: {}",
+                            message.getPayload(),
+                            message.getHeaders().get(EventHubsHeaders.PARTITION_KEY),
+                            message.getHeaders().get(EventHubsHeaders.SEQUENCE_NUMBER),
+                            message.getHeaders().get(EventHubsHeaders.OFFSET),
+                            message.getHeaders().get(EventHubsHeaders.ENQUEUED_TIME)
+                    );
 
-            checkpointer.success()
-                    .doOnSuccess(success -> LOGGER.info("Message '{}' successfully checkpointed", message.getPayload()))
-                    .doOnError(error -> LOGGER.info("Exception found", error))
-                    .block();
+                    checkpointer.success()
+                            .doOnSuccess(success -> LOGGER.info("Message '{}' successfully checkpointed", message.getPayload()))
+                            .doOnError(error -> LOGGER.info("Exception found", error))
+                            .block();
+                }
+            }
         };
     }
-
 }

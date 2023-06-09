@@ -2,18 +2,18 @@ spring:
   cloud:
     azure:
       eventhubs:
-        namespace: testtenant1
+        namespace: ehn-eh-demo-primary-tenant-lftux
         processor:
           checkpoint-store:
-            account-name: testb39d
-            container-name: testehevents
-            account-key: 
+            endpoint: https://stehdemoprimarytenant.blob.core.windows.net/eventhubs-binder-sample
+          consumer-group: $Default
+        event-hub-name: eventhub1
     function:
       definition: consume;
     stream:
       bindings:
         consume-in-0:
-          destination: testtenant1eh
+          destination: eventhub1
           group: $Default
       eventhubs:
         bindings:
@@ -21,3 +21,5 @@ spring:
             consumer:
               checkpoint:
                 mode: MANUAL
+#server:
+#  port: 8081

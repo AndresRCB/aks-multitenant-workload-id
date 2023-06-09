@@ -2,21 +2,24 @@ spring:
   cloud:
     azure:
       eventhubs:
-        namespace: testtenant1
+        namespace: ehn-eh-demo-primary-tenant-lftux
         credential:
           managed-identity-enabled: true
         processor:
           checkpoint-store:
-            account-name: testb39d
-            container-name: testehevents
-            account-key: 
+            endpoint: https://stehdemoprimarytenant.blob.core.windows.net/eventhubs-binder-sample
+            container-name: eventhubs-binder-sample
+            account-name: stehdemoprimarytenant
           consumer-group: $Default
-        event-hub-name: testtenant1eh
+        event-hub-name: eventhub1
+    function:
+      definition: produce;
     stream:
       bindings:
         produce-out-0:
-          destination: testtenant1eh
+          destination: eventhub1
+      default:
+        producer:
+          errorChannelEnabled: true
       poller:
-        fixed-delay: 10000  #default is 1sec
-    function:
-      definition: produce;
+        fixed-delay: 2000  #default is 1sec

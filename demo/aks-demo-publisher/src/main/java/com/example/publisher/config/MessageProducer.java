@@ -1,10 +1,11 @@
-package com.example.publish.config;
+package com.example.publisher.config;
 
 import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import reactor.core.publisher.Flux;
 
 import java.util.Random;
@@ -22,8 +23,8 @@ output binding — <functionName> + -out- + <index>
 https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/configure-spring-cloud-stream-binder-java-app-azure-event-hub
  */
 @Configuration
+@Profile("default")
 public class MessageProducer {
-
 
     private Random rnd = new Random();
 
