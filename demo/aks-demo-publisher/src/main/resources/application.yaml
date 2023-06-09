@@ -9,7 +9,7 @@ spring:
           checkpoint-store:
             account-name: testb39d
             container-name: testehevents
-            account-key: zNPxrwZ3NbiKfkaF8cYDNxFQkykWgemN2+dQ1pfS/1V6ZOU0bQhrrELxufyAk3/1emrB6fmP4qmS+AStoz7OtA==
+            account-key: 
           consumer-group: $Default
         event-hub-name: testtenant1eh
     stream:
@@ -20,5 +20,3 @@ spring:
         fixed-delay: 10000  #default is 1sec
     function:
       definition: produce;
-server:
-  port: 8081

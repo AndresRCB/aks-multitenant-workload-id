@@ -49,3 +49,6 @@ __pycache__/
 # local cli creds if setting export AZURE_CONFIG_DIR=$PWD/.azure
 .azure/
 .terragrunt*
+
+# editor files
+.idea

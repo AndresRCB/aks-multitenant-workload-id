@@ -3,12 +3,11 @@ spring:
     azure:
       eventhubs:
         namespace: testtenant1
-        connection-string: Endpoint=sb://testtenant1.servicebus.windows.net/;SharedAccessKeyName=grp;SharedAccessKey=piCfObAk/+WfV6PPsHCJZSjwNDajdSrlQ+AEhPsizkY=
         processor:
           checkpoint-store:
             account-name: testb39d
             container-name: testehevents
-            account-key: zNPxrwZ3NbiKfkaF8cYDNxFQkykWgemN2+dQ1pfS/1V6ZOU0bQhrrELxufyAk3/1emrB6fmP4qmS+AStoz7OtA==
+            account-key: 
     function:
       definition: consume;
     stream:
@@ -22,5 +21,3 @@ spring:
             consumer:
               checkpoint:
                 mode: MANUAL
-server:
-  port: 8082
