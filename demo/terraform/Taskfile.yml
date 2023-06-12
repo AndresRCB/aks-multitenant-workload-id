@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  default:
+    aliases: [apply]
+    cmds:
+      - rm -f .terraform.lock.hcl
+        - terragrunt apply -auto-approve --terragrunt-non-interactive
+        - terragrunt output -raw environment_variable_setup > .env
+    sources:
+      - main.tf
+      - outputs.tf
+      - variables.tf
+      - providers.tf
+  clean:
+    cmds:
+      - terragrunt destroy -auto-approve -refresh=false --terragrunt-non-interactive
+      - rm -f .env

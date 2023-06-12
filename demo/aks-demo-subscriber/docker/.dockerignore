@@ -1,0 +1,6 @@
+*-local.properties
+*-local.yaml
+*-dev.properties
+*-dev.yaml
+*.log
+*.pem

@@ -25,6 +25,16 @@ output "environment_variable_setup" {
   description = "Command to set environment variables after this environment is brought up"
 }
 
+output "kubenertes_namespace_id" {
+  value       = kubernetes_namespace.main.id
+  description = "Kubernetes namespace id"
+}
+
+output "kubernetes_service_account_name" {
+  value  = kubernetes_service_account.main.metadata[0].name
+  description = "Kubernetes service account name"
+}
+
 output "print_key_vault_secret_command" {
   value = "kubectl exec -it deploy/${local.deployment_name} -n ${kubernetes_namespace.main.id} -- cat /mnt/secrets-store/${var.secret_name}"
   description = "Command to print the key vault secret mounted in the kubernetes client deployment (a test)"
