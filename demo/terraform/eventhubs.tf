@@ -1,8 +1,3 @@
-data "azurerm_resource_group" "secondary" {
-  provider = azurerm.second
-  name     = var.secondary_rg_name
-}
-
 
 # =================== eventhubs primary ================
 
@@ -18,7 +13,7 @@ resource "azurecaf_name" "azurecaf_name_eventhubs_primary" {
 resource "azurerm_eventhub_namespace" "eventhubs_namespace_primary" {
   name                = azurecaf_name.azurecaf_name_eventhubs_primary.result
   location            = var.location
-  resource_group_name = var.primary_rg_name
+  resource_group_name = data.azurerm_resource_group.primary.name
   sku                 = "Standard"
   capacity            = 1
 
@@ -31,16 +26,12 @@ resource "azurerm_eventhub_namespace" "eventhubs_namespace_primary" {
 resource "azurerm_eventhub" "eventhubs_primary" {
   name                = "eventhub1"
   namespace_name      = azurerm_eventhub_namespace.eventhubs_namespace_primary.name
-  resource_group_name = var.primary_rg_name
+  resource_group_name = data.azurerm_resource_group.primary.name
   partition_count     = 2
   message_retention   = 1
 }
 
-resource "azurerm_role_assignment" "role_eventhubs_data_owner_main_tenant" {
-  scope                = azurerm_eventhub.eventhubs_primary.id
-  role_definition_name = "Azure Event Hubs Data Owner"
-  principal_id         = var.uai_primary_principal_id
-}
+
 
 # =================== eventhubs secondary ================
 
@@ -74,11 +65,3 @@ resource "azurerm_eventhub" "eventhubs_secondary" {
   message_retention   = 1
 }
 
-resource "azurerm_role_assignment" "role_eventhubs_data_owner_secondary_tenant" {
-  provider = azurerm.second
-  scope                = azurerm_eventhub.eventhubs_secondary.id
-  role_definition_name = "Azure Event Hubs Data Owner"
-  principal_id         = var.uai_secondary_principal_id
-  //delegated_managed_identity_resource_id = "/subscriptions/7b462068-95e0-4334-876a-13455cfbad46/resourcegroups/rg-aadwi-secondary-one-jaybird/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai-kv-tough-sawfly"
-  skip_service_principal_aad_check = true
-}

@@ -115,7 +115,7 @@ resource "kubernetes_deployment" "main" {
         app = "nginx"
       }
     }
-    
+
     template {
       metadata {
         labels = {

@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    azure:
+      eventhubs:
+        namespace:
+        credential:
+          managed-identity-enabled: true
+        processor:
+          checkpoint-store:
+            endpoint:
+            container-name:
+            account-name:
+          consumer-group: $Default
+        event-hub-name:
+    function:
+      definition: publish;
+    stream:
+      bindings:
+        publish-out-0:
+          destination:
+      default:
+        producer:
+          errorChannelEnabled: true
+      poller:
+        fixed-delay: 2000  #default is 1sec

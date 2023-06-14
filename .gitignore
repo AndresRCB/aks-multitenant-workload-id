@@ -42,7 +42,6 @@ terraform.rc
 .envrc
 .denv
 
-
 scratch
 __pycache__/
 
@@ -52,4 +51,8 @@ __pycache__/
 
 # editor files
 .idea/
+
+
+# jar
+target/
 

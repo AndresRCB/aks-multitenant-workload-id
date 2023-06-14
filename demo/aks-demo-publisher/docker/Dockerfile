@@ -1,5 +1,5 @@
 FROM --platform=linux/amd64 mcr.microsoft.com/openjdk/jdk:11-ubuntu
-COPY target/*.jar /app/publisher.jar
+COPY --chown=root:root ../aks-demo-publisher/target/*.jar /app/publisher.jar
 EXPOSE 8080
 WORKDIR /app
 ENTRYPOINT ["java", "-jar", "/app/publisher.jar"]

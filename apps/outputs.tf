@@ -3,36 +3,11 @@ output "resource_group_name" {
   description = "Name of the resource group where all resources for this test will live"
 }
 
-output "resource_group_name_secondary" {
-  value       = data.azurerm_resource_group.secondary.name
-  description = "Name of the resource group where secondary keyvault exists"
-}
-
-output "uai_primary_principal_id" {
-  value       = azurerm_user_assigned_identity.main.principal_id
-  description = "User assigned identity primary principal id"
-}
-
-output "uai_secondary_principal_id" {
-  value       = azurerm_user_assigned_identity.secondary.principal_id
-  description = "User assigned identity secondary principal id"
-}
-
 output "environment_variable_setup" {
   value       = <<-COMMAND
         export RESOURCE_GROUP=${data.azurerm_resource_group.main.name}
         COMMAND
   description = "Command to set environment variables after this environment is brought up"
-}
-
-output "kubenertes_namespace_id" {
-  value       = kubernetes_namespace.main.id
-  description = "Kubernetes namespace id"
-}
-
-output "kubernetes_service_account_name" {
-  value  = kubernetes_service_account.main.metadata[0].name
-  description = "Kubernetes service account name"
 }
 
 output "print_key_vault_secret_command" {

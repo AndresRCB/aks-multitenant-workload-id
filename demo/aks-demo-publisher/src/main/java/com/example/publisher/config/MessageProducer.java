@@ -23,7 +23,6 @@ output binding — <functionName> + -out- + <index>
 https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/configure-spring-cloud-stream-binder-java-app-azure-event-hub
  */
 @Configuration
-@Profile("default")
 public class MessageProducer {
 
     private Random rnd = new Random();
@@ -38,7 +37,7 @@ public class MessageProducer {
 
     // Spring cloud triggers it by configurable polling
     @PollableBean
-    Supplier<Message<String>> produce() {
+    Supplier<Message<String>> publish() {
         // Generate and set the 'sequenceNumber' header for each event
         return () -> {
             String message = messages[rnd.nextInt(messages.length)];

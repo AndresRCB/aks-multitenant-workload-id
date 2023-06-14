@@ -14,7 +14,7 @@ module "public_aks_cluster" {
   cluster_name = var.cluster_name
   authorized_ip_cidr_range = var.authorized_ip_cidr_range
   default_node_pool_vm_size = "standard_d2a_v4"
-  
+
   depends_on = [
     azurerm_resource_group.main
   ]

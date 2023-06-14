@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    azure:
+      eventhubs:
+        namespace:
+        credential:
+          managed-identity-enabled: true
+        processor:
+          checkpoint-store:
+            endpoint:
+          consumer-group: $Default
+        event-hub-name:
+    function:
+      definition: consume;
+    stream:
+      bindings:
+        consume-in-0:
+          destination:
+          group: $Default
+      eventhubs:
+        bindings:
+          consume-in-0:
+            consumer:
+              checkpoint:
+                mode: MANUAL
+#server:
+#  port: 8081

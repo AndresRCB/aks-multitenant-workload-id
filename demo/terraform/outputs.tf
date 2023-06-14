@@ -33,7 +33,6 @@ output "AZURE_STORAGE_CONTAINER_NAME_SECONDARY" {
   description = "The container name created in storage account in secondary tenant."
 }
 
-
 # the default consumer group
 output "AZURE_EVENTHUB_CONSUMER_GROUP_PRIMARY" {
   value       = "$Default"
