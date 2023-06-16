@@ -22,6 +22,19 @@ resource "kubernetes_service_account" "primary" {
   }
 }
 
+resource "kubernetes_service_account" "secondary" {
+  metadata {
+    name      = local.secondary_service_account
+    namespace = kubernetes_namespace.main.id
+    annotations = {
+      "azure.workload.identity/client-id" = azurerm_user_assigned_identity.secondary.client_id
+    }
+    labels = {
+      "azure.workload.identity/use" : "true"
+    }
+  }
+}
+
 resource "azurerm_federated_identity_credential" "primary" {
   for_each = local.primary_wi
 
@@ -37,7 +50,6 @@ resource "azurerm_federated_identity_credential" "primary" {
     module.aks,
     module.secondary-setup
   ]
-
 }
 
 resource "azurerm_federated_identity_credential" "secondary" {
@@ -49,7 +61,7 @@ resource "azurerm_federated_identity_credential" "secondary" {
   issuer              = module.aks.oidc_issuer_url
   parent_id           = azurerm_user_assigned_identity.secondary.id
   # TODO what is the service account(out of 2 in primary tenant) to use here?
-  subject             = "system:serviceaccount:${kubernetes_namespace.main.id}:${local.publisher_service_account}"
+  subject             = "system:serviceaccount:${kubernetes_namespace.main.id}:${local.secondary_service_account}"
 
   depends_on = [
     kubernetes_service_account.primary,

@@ -3,12 +3,12 @@ package com.example.subscriber.config;
 import com.azure.spring.messaging.eventhubs.support.EventHubsHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
 import com.azure.spring.messaging.checkpoint.Checkpointer;
-import org.springframework.messaging.MessageHeaders;
 
 import java.util.function.Consumer;
 
@@ -28,12 +28,35 @@ public class MessageConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageConsumer.class);
 
     @Bean
-    Consumer<Message<String>> consume() {
+    Consumer<Message<String>> consume1() {
         return message -> {
             if (message != null) {
                 Checkpointer checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
                 if (checkpointer != null) {
-                    LOGGER.info("New message received: '{}', partition key: {}, sequence number: {}, offset: {}, enqueued time: {}",
+                    LOGGER.info("New message received tenant1: '{}', partition key: {}, sequence number: {}, offset: {}, enqueued time: {}",
+                            message.getPayload(),
+                            message.getHeaders().get(EventHubsHeaders.PARTITION_KEY),
+                            message.getHeaders().get(EventHubsHeaders.SEQUENCE_NUMBER),
+                            message.getHeaders().get(EventHubsHeaders.OFFSET),
+                            message.getHeaders().get(EventHubsHeaders.ENQUEUED_TIME)
+                    );
+
+                    checkpointer.success()
+                            .doOnSuccess(success -> LOGGER.info("Message '{}' successfully checkpointed", message.getPayload()))
+                            .doOnError(error -> LOGGER.info("Exception found", error))
+                            .block();
+                }
+            }
+        };
+    }
+
+    @Bean
+    Consumer<Message<String>> consume2() {
+        return message -> {
+            if (message != null) {
+                Checkpointer checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
+                if (checkpointer != null) {
+                    LOGGER.info("New message received tenant2: '{}', partition key: {}, sequence number: {}, offset: {}, enqueued time: {}",
                             message.getPayload(),
                             message.getHeaders().get(EventHubsHeaders.PARTITION_KEY),
                             message.getHeaders().get(EventHubsHeaders.SEQUENCE_NUMBER),

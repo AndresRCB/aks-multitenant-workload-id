@@ -1,27 +1,83 @@
 spring:
   cloud:
-    azure:
-      eventhubs:
-        namespace:
-        credential:
-          managed-identity-enabled: true
-        processor:
-          checkpoint-store:
-            endpoint:
-          consumer-group: $Default
-        event-hub-name:
     function:
-      definition: consume;
+      definition: consume1;consume2;
     stream:
       bindings:
-        consume-in-0:
+        consume1-in-0:
+          destination:
+          group: $Default
+        consume2-in-0:
+          binder: eventhub-2
           destination:
           group: $Default
       eventhubs:
         bindings:
-          consume-in-0:
+          consume1-in-0:
             consumer:
               checkpoint:
                 mode: MANUAL
-#server:
-#  port: 8081
+          consume2-in-0:
+            consumer:
+              checkpoint:
+                mode: MANUAL
+      binders:
+        eventhub-1:
+          type: eventhubs
+          default-candidate: true
+          environment:
+            spring:
+              cloud:
+                azure:
+                  eventhubs:
+                    event-hub-name:
+                    namespace:
+                    credential:
+                      managed-identity-enabled: true
+                      client-id:
+                    consumer:
+                      profile:
+                        tenant-id:
+                    profile:
+                      tenant-id:
+                    processor:
+                      checkpoint-store:
+                        credential:
+                          managed-identity-enabled: true
+                          client-id:
+                        profile:
+                          tenant-id:
+                        endpoint:
+                        container-name:
+                        account-name:
+        eventhub-2:
+          type: eventhubs
+          default-candidate: false
+          environment:
+            spring:
+              cloud:
+                azure:
+                  eventhubs:
+                    event-hub-name:
+                    namespace:
+                    credential:
+                      managed-identity-enabled: true
+                      client-id:
+                    consumer:
+                      profile:
+                        tenant-id:
+                    profile:
+                      tenant-id:
+                    processor:
+                      checkpoint-store:
+                        credential:
+                          managed-identity-enabled: true
+                          client-id:
+                        profile:
+                          tenant-id:
+                        endpoint:
+                        container-name:
+                        account-name:
+      poller:
+        initial-delay: 0
+        fixed-delay: 2000 #default is 1s

@@ -15,7 +15,16 @@ resource "azurerm_user_assigned_identity" "secondary" {
   depends_on = [module.secondary-setup]
 }
 
-resource "azurerm_role_assignment" "role_eventhubs_data_sub_secondary_tenant" {
+resource "azurerm_role_assignment" "role_eventhubs_data_send_secondary_tenant" {
+  provider = azurerm.second
+  scope                = azurerm_eventhub.eventhubs_secondary.id
+  role_definition_name = "Azure Event Hubs Data Sender"
+  principal_id         = azurerm_user_assigned_identity.secondary.principal_id
+  //delegated_managed_identity_resource_id = "/subscriptions/7b462068-95e0-4334-876a-13455cfbad46/resourcegroups/rg-aadwi-secondary-one-jaybird/providers/Microsoft.ManagedIdentity/userAssignedIdentities/uai-kv-tough-sawfly"
+  skip_service_principal_aad_check = true
+}
+
+resource "azurerm_role_assignment" "role_eventhubs_data_rec_secondary_tenant" {
   provider = azurerm.second
   scope                = azurerm_eventhub.eventhubs_secondary.id
   role_definition_name = "Azure Event Hubs Data Receiver"

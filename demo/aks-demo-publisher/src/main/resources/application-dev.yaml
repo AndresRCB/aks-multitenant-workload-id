@@ -1,25 +1,73 @@
 spring:
   cloud:
-    azure:
-      eventhubs:
-        namespace:
-        credential:
-          managed-identity-enabled: true
-        processor:
-          checkpoint-store:
-            endpoint:
-            container-name:
-            account-name:
-          consumer-group: $Default
-        event-hub-name:
     function:
-      definition: publish;
+      definition: publish1;publish2;
     stream:
       bindings:
-        publish-out-0:
+        publish1-out-0:
           destination:
-      default:
-        producer:
-          errorChannelEnabled: true
+        publish2-out-0:
+          binder: eventhub-2
+          destination:
+      binders:
+        eventhub-1:
+          type: eventhubs
+          default-candidate: true
+          environment:
+            spring:
+              cloud:
+                azure:
+                  eventhubs:
+                    producer:
+                      profile:
+                        tenant-id:
+                    event-hub-name:
+                    namespace:
+                    credential:
+                      managed-identity-enabled: true
+                      client-id:
+                    profile:
+                      tenant-id:
+                    consumer-group: $Default
+                    processor:
+                      checkpoint-store:
+                        credential:
+                          managed-identity-enabled: true
+                          client-id:
+                        profile:
+                          tenant-id:
+                        endpoint:
+                        container-name:
+                        account-name:
+        eventhub-2:
+          type: eventhubs
+          default-candidate: false
+          environment:
+            spring:
+              cloud:
+                azure:
+                  eventhubs:
+                    producer:
+                      profile:
+                        tenant-id:
+                    event-hub-name:
+                    namespace:
+                    credential:
+                      managed-identity-enabled: true
+                      client-id:
+                    profile:
+                      tenant-id:
+                    consumer-group: $Default
+                    processor:
+                      checkpoint-store:
+                        credential:
+                          managed-identity-enabled: true
+                          client-id:
+                        profile:
+                          tenant-id:
+                        endpoint:
+                        container-name:
+                        account-name:
       poller:
-        fixed-delay: 2000  #default is 1sec
+        initial-delay: 0
+        fixed-delay: 2000 #default is 1s

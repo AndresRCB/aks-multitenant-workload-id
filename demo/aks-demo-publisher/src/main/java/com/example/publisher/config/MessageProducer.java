@@ -3,6 +3,7 @@ package com.example.publisher.config;
 import com.azure.messaging.eventhubs.EventData;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -37,12 +38,23 @@ public class MessageProducer {
 
     // Spring cloud triggers it by configurable polling
     @PollableBean
-    Supplier<Message<String>> publish() {
+    Supplier<Message<String>> publish1() {
         // Generate and set the 'sequenceNumber' header for each event
         return () -> {
             String message = messages[rnd.nextInt(messages.length)];
-            System.out.println("Sending: " + message);
+            System.out.println("Publishing to main tenant1: " + message);
             return MessageBuilder.withPayload("Hello, " + message).build();
         };
     }
+
+    @PollableBean
+    Supplier<Message<String>> publish2() {
+        // Generate and set the 'sequenceNumber' header for each event
+        return () -> {
+            String message = messages[rnd.nextInt(messages.length)];
+            System.out.println("Publishing to secondary tenant2: " + message);
+            return MessageBuilder.withPayload("Hello secondary, " + message).build();
+        };
+    }
+
 }
