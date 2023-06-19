@@ -27,8 +27,6 @@ Y
 )demo/aks-demo-publisher/docker/Dockerfile,3/5/35eb1ee6e9207de7419109db1c0bb13d06f3b12f
 Z
 *demo/aks-demo-subscriber/docker/Dockerfile,a/3/a3d319a2cdb1fd21b42fe3ed1b640463dc7bd2f3
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 ?
 apps/outputs.tf,8/4/84b5cdec9544a55912b47828de5b35c64877a65b
 A
@@ -57,16 +55,12 @@ A
 keyvault2/main.tf,4/6/46c20b951d7a2efcb6bf42a0b1aa3973985a5f41
 I
 demo/terraform/outputs.tf,3/f/3fa7fe44fb27bc274d08e339e55ec662eaa12449
-M
-demo/terraform/aks/outputs.tf,8/8/888611fa494a8076b40b98c130ac31cddcfdf973
 U
 %demo/terraform/secondary/providers.tf,0/5/0549f3e8a1746db19e97ad77537fd12310ff26c5
 U
 %demo/terraform/secondary/variables.tf,9/1/91c4edd6e212df566e97b732dcd19aba8bae8a50
 ;
 apps/k8s.tf,a/1/a1d1293d4f10de6fa3f89db9f8ac896bc2f10a2a
-Q
-!demo/terraform/storageaccounts.tf,3/d/3ddb5ddde5817dd3faaee89c873b80ba839eb1c5
 O
 demo/terraform/aks/variables.tf,1/d/1df2f66615e4e84cb06646d2781933afa9fe902c
 N
@@ -75,14 +69,8 @@ M
 demo/terraform/aks/network.tf,d/e/deaf41c306fc89fd3af25e9a6b25cc5e166ccfe4
 O
 demo/terraform/aks/providers.tf,c/4/c46f433837c1a6d2842bb99800b1d2746177ad33
-r
-Bdemo/aks-demo-subscriber/src/main/resources/application-local.yaml,6/8/68f809ab5f6db4ca00eca619209d537ae121fe1b
-O
-demo/aks-demo-publisher/pom.xml,d/f/dfd7572657a2f41af2eebade7d2549174d5e5a77
 P
  demo/aks-demo-subscriber/pom.xml,d/7/d7f65fca2d04af4f2502f9d9a4624eb1fd672b3f
-J
-demo/terraform/aks/main.tf,9/8/98f1c9108ade986196dbb073269101c28d46b228
 ;
 aks/main.tf,a/f/afd9f5a8417d7a41041f3a212bd60540960dabce
 A
@@ -93,23 +81,13 @@ D
 keyvault2/outputs.tf,7/f/7f2f5698ea1852a3f24cf02dcf79c5292b035746
 <
 apps/main.tf,9/2/92d7a0af27f82a89b1eeb20de0ad634c2961c617
-H
-demo/terraform/docker.tf,6/6/666f8cafb8c176f03922d3cb7c8d2c319740d613
 P
  demo/terraform/secondary/main.tf,6/5/650766fc1814bf540400dd1092957eb795fa204e
-F
-demo/terraform/main.tf,8/d/8dc676d4bcb56a516696014395d5e6f06b2511c7
 ‰
 Ydemo/aks-demo-subscriber/src/main/java/com/example/subscriber/EventHubSubApplication.java,f/7/f7c42d43bf76eb8a33a5d3d4d2c0e521d9f78539
 Q
 !demo/aks-demo-subscriber/mvnw.cmd,c/2/c2d79e4979807ff579c1450415d36571a7d63527
 K
-demo/terraform/rbac_main.tf,2/8/288c668543ccc577922fc896b5d83e484c5e0db5
-‰
-Ydemo/aks-demo-subscriber/src/main/java/com/example/subscriber/config/MessageConsumer.java,c/8/c839111f311eeff34a2f397da490b074acfbeaf5
-K
 demo/terraform/variables.tf,f/c/fc1a925292d390210282a585116541d7a62c24f4
 S
 #demo/terraform/secondary/outputs.tf,8/f/8fc153bced782e6941eab5324c7d672862fd3a2c
-W
-'demo/terraform/subscriber_deployment.tf,9/e/9ee781b29de845980004ae59f168550f160491e7

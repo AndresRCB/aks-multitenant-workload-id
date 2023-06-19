@@ -1,0 +1,49 @@
+spring:
+  cloud:
+    function:
+      definition: consume2;
+    stream:
+      bindings:
+        consume2-in-0:
+          binder: eventhub-2
+          destination:
+          group: $Default
+      eventhubs:
+        bindings:
+          consume2-in-0:
+            consumer:
+              checkpoint:
+                mode: MANUAL
+      binders:
+        eventhub-2:
+          type: eventhubs
+          default-candidate: false
+          environment:
+            spring:
+              cloud:
+                azure:
+                  eventhubs:
+                    event-hub-name:
+                    namespace:
+                    credential:
+                      managed-identity-enabled: true
+                      client-id:
+                    consumer:
+                      profile:
+                        tenant-id:
+                      consumer-group: $Default
+                    profile:
+                      tenant-id:
+                    processor:
+                      checkpoint-store:
+                        credential:
+                          managed-identity-enabled: true
+                          client-id:
+                        profile:
+                          tenant-id:
+                        endpoint:
+                        container-name:
+                        account-name:
+      poller:
+        initial-delay: 0
+        fixed-delay: 2000 #default is 1s

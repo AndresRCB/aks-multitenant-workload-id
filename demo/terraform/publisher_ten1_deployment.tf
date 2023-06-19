@@ -1,8 +1,8 @@
-resource "kubernetes_deployment" "publisher" {
+resource "kubernetes_deployment" "publisherten1" {
   metadata {
-    name      = "publisher"
+    name      = "publisher-ten1"
     labels    = {
-      app                           = "publisher"
+      app                           = "publisher-ten1"
       "azure.workload.identity/use" = "true"
     }
     namespace = kubernetes_namespace.main.id
@@ -12,13 +12,13 @@ resource "kubernetes_deployment" "publisher" {
 
     selector {
       match_labels = {
-        app = "publisher"
+        app = "publisher-ten1"
       }
     }
     template {
       metadata {
         labels = {
-          app = "publisher"
+          app = "publisher-ten1"
           "azure.workload.identity/use" = "true"
         }
       }
@@ -119,7 +119,7 @@ resource "kubernetes_deployment" "publisher" {
           }
         env {
             name = "spring_profiles_active"
-            value = "dev"
+            value = "ten1"
           }
           env {
             name = "LOGGING_LEVEL_COM_AZURE_IDENTITY_DEFAULTAZURECREDENTIAL"

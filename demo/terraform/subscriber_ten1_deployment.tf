@@ -1,8 +1,8 @@
-resource "kubernetes_deployment" "subscriber" {
+resource "kubernetes_deployment" "subscriberten1" {
   metadata {
-    name      = "subscriber"
+    name      = "subscriberten1"
     labels    = {
-      app                           = "subscriber"
+      app                           = "subscriberten1"
       "azure.workload.identity/use" = "true"
     }
     namespace = kubernetes_namespace.main.id
@@ -12,13 +12,13 @@ resource "kubernetes_deployment" "subscriber" {
 
     selector {
       match_labels = {
-        app = "subscriber"
+        app = "subscriberten1"
       }
     }
     template {
       metadata {
         labels = {
-          app = "subscriber"
+          app = "subscriberten1"
           "azure.workload.identity/use" = "true"
         }
       }
@@ -29,7 +29,7 @@ resource "kubernetes_deployment" "subscriber" {
           name              = local.demo_app_sub_image_name
           image_pull_policy = "Always"
           env {
-            name  = "SPRING_CLOUD_STREAM_BINDINGS_CONSUME_IN_0_DESTINATION"
+            name  = "SPRING_CLOUD_STREAM_BINDINGS_CONSUME1_IN_0_DESTINATION"
             value = azurerm_eventhub.eventhubs_primary.name
           }
           env {
@@ -41,7 +41,7 @@ resource "kubernetes_deployment" "subscriber" {
             value = azurerm_eventhub.eventhubs_secondary.name
           }
           env {
-            name  = "SPRING_CLOUD_STREAM_BINDINGS_CONSUME_IN_1_GROUP"
+            name  = "SPRING_CLOUD_STREAM_BINDINGS_CONSUME2_IN_1_GROUP"
             value = "$Default"
           }
         env {
@@ -114,6 +114,10 @@ resource "kubernetes_deployment" "subscriber" {
           value = module.secondary-setup.tenant_id
         }
           env {
+            name  = "SPRING_CLOUD_STREAM_BINDERS_EVENTHUB_2_ENVIRONMENT_SPRING_CLOUD_AZURE_EVENTHUBS_CONSUMER_CONSUMER_GROUP"
+            value = "$Default"
+          }
+          env {
             name  = "SPRING_CLOUD_STREAM_BINDERS_EVENTHUB_2_ENVIRONMENT_SPRING_CLOUD_AZURE_EVENTHUBS_CONSUMER_PROFILE_TENANT_ID"
             value = module.secondary-setup.tenant_id
           }
@@ -123,7 +127,7 @@ resource "kubernetes_deployment" "subscriber" {
         }
         env {
           name = "spring_profiles_active"
-          value = "dev"
+          value = "ten1"
         }
         }
       }

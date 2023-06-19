@@ -15,6 +15,7 @@ resource "kubernetes_service_account" "primary" {
     namespace = kubernetes_namespace.main.id
     annotations = {
       "azure.workload.identity/client-id" = each.value.uami_client_id
+      "azure.workload.identity/tenant-id" = data.azurerm_client_config.current.tenant_id
     }
     labels = {
       "azure.workload.identity/use" : "true"
@@ -28,6 +29,7 @@ resource "kubernetes_service_account" "secondary" {
     namespace = kubernetes_namespace.main.id
     annotations = {
       "azure.workload.identity/client-id" = azurerm_user_assigned_identity.secondary.client_id
+      "azure.workload.identity/tenant-id" = module.secondary-setup.tenant_id
     }
     labels = {
       "azure.workload.identity/use" : "true"

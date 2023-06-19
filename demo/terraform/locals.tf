@@ -2,7 +2,7 @@ locals {
   demo_app_pub_image_name = "publisher"
   demo_app_pub_image_tag = "v1.2"
   demo_app_sub_image_name = "subscriber"
-  demo_app_sub_image_tag = "v1.0"
+  demo_app_sub_image_tag = "v1.1"
   kubernetes_namespace = "aadwi"
   publisher_service_account = "aks-publisher-ten1-sa"
   subscriber_service_account = "aks-subscriber-ten1-sa"

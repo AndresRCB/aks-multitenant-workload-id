@@ -28,7 +28,7 @@ public class MessageProducer {
 
     private Random rnd = new Random();
 
-    private String[] messages = {
+    private String[] tenant1Messages = {
             "Tenant1 -> Message 1",
             "Tenant1 -> Message 2",
             "Tenant1 -> Message 3",
@@ -36,14 +36,22 @@ public class MessageProducer {
             "Tenant1 -> Message 5",
     };
 
+    private String[] tenant2Messages = {
+            "Tenant2 -> Message 1",
+            "Tenant2 -> Message 2",
+            "Tenant2-> Message 3",
+            "Tenant2 -> Message 4",
+            "Tenant2-> Message 5",
+    };
+
     // Spring cloud triggers it by configurable polling
     @PollableBean
     Supplier<Message<String>> publish1() {
         // Generate and set the 'sequenceNumber' header for each event
         return () -> {
-            String message = messages[rnd.nextInt(messages.length)];
-            System.out.println("Publishing to main tenant1: " + message);
-            return MessageBuilder.withPayload("Hello, " + message).build();
+            String tenant1Message = tenant1Messages[rnd.nextInt(tenant1Messages.length)];
+            System.out.println("Publishing to main tenant1: " + tenant1Message);
+            return MessageBuilder.withPayload("Hello primary, " + tenant1Message).build();
         };
     }
 
@@ -51,9 +59,9 @@ public class MessageProducer {
     Supplier<Message<String>> publish2() {
         // Generate and set the 'sequenceNumber' header for each event
         return () -> {
-            String message = messages[rnd.nextInt(messages.length)];
-            System.out.println("Publishing to secondary tenant2: " + message);
-            return MessageBuilder.withPayload("Hello secondary, " + message).build();
+            String tenant2Message = tenant2Messages[rnd.nextInt(tenant2Messages.length)];
+            System.out.println("Publishing to secondary tenant2: " + tenant2Message);
+            return MessageBuilder.withPayload("Hello secondary, " + tenant2Message).build();
         };
     }
 

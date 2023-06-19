@@ -16,7 +16,7 @@ public class EventHubConfig {
     @Value("${spring.cloud.stream.binders.eventhub-1.environment.spring.cloud.azure.eventhubs.event-hub-name}")
     private String eventHubName1;
 
-    @Value("${spring.cloud.stream.bindings.consume1-in-0.group}")
+    @Value("${spring.cloud.stream.binders.eventhub-1.environment.spring.cloud.azure.eventhubs.consumer.consumer-group}")
     private String consumerGrp1;
 
     @Value("${spring.cloud.stream.binders.eventhub-2.environment.spring.cloud.azure.eventhubs.namespace}")
@@ -25,7 +25,7 @@ public class EventHubConfig {
     @Value("${spring.cloud.stream.binders.eventhub-2.environment.spring.cloud.azure.eventhubs.event-hub-name}")
     private String eventHubName2;
 
-    @Value("${spring.cloud.stream.bindings.consume2-in-0.group}")
+    @Value("${spring.cloud.stream.binders.eventhub-2.environment.spring.cloud.azure.eventhubs.consumer.consumer-group}")
     private String consumerGrp2;
 
     @Value("${spring.cloud.stream.binders.eventhub-2.environment.spring.cloud.azure.eventhubs.profile.tenant-id}")
