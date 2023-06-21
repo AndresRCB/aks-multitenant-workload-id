@@ -1,5 +1,6 @@
 package com.example.subscriber.config;
 
+import com.azure.core.util.ClientOptions;
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.identity.WorkloadIdentityCredentialBuilder;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
@@ -47,10 +48,11 @@ public class EventHubConfig {
     @Bean
     public EventHubConsumerClient eventHubConsumerClient2() {
         return new EventHubClientBuilder()
-                .credential(eventHubNamespace2, eventHubName2, new WorkloadIdentityCredentialBuilder()
-                        .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
-                        .tenantId(tenantId2)
-                        .clientId(clientId2)
+                .credential(eventHubNamespace2, eventHubName2, new DefaultAzureCredentialBuilder()
+                        // .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
+                        .additionallyAllowedTenants("*")
+                        // .tenantId(tenantId2)
+                        .workloadIdentityClientId(clientId2)
                         .build())
                 .consumerGroup(consumerGrp2)
                 .buildConsumerClient();

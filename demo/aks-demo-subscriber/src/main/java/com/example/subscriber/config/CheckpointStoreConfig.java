@@ -1,4 +1,4 @@
-package com.example.publisher.config;
+package com.example.subscriber.config;
 
 import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.identity.WorkloadIdentityCredentialBuilder;
