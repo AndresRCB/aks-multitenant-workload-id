@@ -1,6 +1,7 @@
 package com.example.subscriber.config;
 
 import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.identity.WorkloadIdentityCredentialBuilder;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
 import com.azure.messaging.eventhubs.EventHubConsumerClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,9 +47,10 @@ public class EventHubConfig {
     @Bean
     public EventHubConsumerClient eventHubConsumerClient2() {
         return new EventHubClientBuilder()
-                .credential(eventHubNamespace2, eventHubName2, new DefaultAzureCredentialBuilder()
+                .credential(eventHubNamespace2, eventHubName2, new WorkloadIdentityCredentialBuilder()
+                        .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
                         .tenantId(tenantId2)
-                        .managedIdentityClientId(clientId2)
+                        .clientId(clientId2)
                         .build())
                 .consumerGroup(consumerGrp2)
                 .buildConsumerClient();

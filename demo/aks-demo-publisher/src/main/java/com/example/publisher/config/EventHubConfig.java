@@ -1,6 +1,7 @@
 package com.example.publisher.config;
 
 import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.identity.WorkloadIdentityCredentialBuilder;
 import com.azure.messaging.eventhubs.EventHubClientBuilder;
 import com.azure.messaging.eventhubs.EventHubProducerClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,24 +35,25 @@ public class EventHubConfig {
     @Value("${spring.cloud.stream.binders.eventhub-2.environment.spring.cloud.azure.eventhubs.credential.client-id}")
     private String clientId2;
 
-    @Bean
-    public EventHubProducerClient eventHubProducerClient1() {
-        return new EventHubClientBuilder()
-                .credential(eventHubNamespace1, eventHubName1, new DefaultAzureCredentialBuilder()
-                        .build())
-                .consumerGroup(consumerGrp1)
-                .buildProducerClient();
-    }
+//    @Bean
+//    public EventHubProducerClient eventHubProducerClient1() {
+//        return new EventHubClientBuilder()
+//                .credential(eventHubNamespace1, eventHubName1, new DefaultAzureCredentialBuilder()
+//                        .build())
+//                .consumerGroup(consumerGrp1)
+//                .buildProducerClient();
+//    }
 
-    @Bean
-    public EventHubProducerClient eventHubProducerClient2() {
-        return new EventHubClientBuilder()
-                .credential(eventHubNamespace2, eventHubName2, new DefaultAzureCredentialBuilder()
-                        .tenantId(tenantId2)
-                        .managedIdentityClientId(clientId2)
-                        .build())
-                .consumerGroup(consumerGrp2)
-                .buildProducerClient();
-    }
+//    @Bean
+//    public EventHubProducerClient eventHubProducerClient2() {
+//        return new EventHubClientBuilder()
+//                .credential(eventHubNamespace2, eventHubName2, new WorkloadIdentityCredentialBuilder()
+//                .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
+//                .tenantId(tenantId2)
+//                .clientId(clientId2)
+//                .build())
+//                .consumerGroup(consumerGrp2)
+//                .buildProducerClient();
+//    }
 
 }

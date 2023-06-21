@@ -53,10 +53,6 @@ F
 keyvault2/providers.tf,5/1/519656615f805cae83ef7563d53da6ab95d4467c
 A
 keyvault2/main.tf,4/6/46c20b951d7a2efcb6bf42a0b1aa3973985a5f41
-I
-demo/terraform/outputs.tf,3/f/3fa7fe44fb27bc274d08e339e55ec662eaa12449
-U
-%demo/terraform/secondary/providers.tf,0/5/0549f3e8a1746db19e97ad77537fd12310ff26c5
 U
 %demo/terraform/secondary/variables.tf,9/1/91c4edd6e212df566e97b732dcd19aba8bae8a50
 ;
@@ -75,19 +71,50 @@ P
 aks/main.tf,a/f/afd9f5a8417d7a41041f3a212bd60540960dabce
 A
 apps/secondary.tf,7/7/77e22aa59a020d9e33420776de4d5390e2d5f08f
-K
-demo/terraform/eventhubs.tf,9/d/9d49ff3cb3f9a8199a1f4a4d6d94e511c9ab0e05
 D
 keyvault2/outputs.tf,7/f/7f2f5698ea1852a3f24cf02dcf79c5292b035746
 <
 apps/main.tf,9/2/92d7a0af27f82a89b1eeb20de0ad634c2961c617
-P
- demo/terraform/secondary/main.tf,6/5/650766fc1814bf540400dd1092957eb795fa204e
-‰
-Ydemo/aks-demo-subscriber/src/main/java/com/example/subscriber/EventHubSubApplication.java,f/7/f7c42d43bf76eb8a33a5d3d4d2c0e521d9f78539
 Q
 !demo/aks-demo-subscriber/mvnw.cmd,c/2/c2d79e4979807ff579c1450415d36571a7d63527
-K
-demo/terraform/variables.tf,f/c/fc1a925292d390210282a585116541d7a62c24f4
+J
+demo/terraform/aks/main.tf,9/8/98f1c9108ade986196dbb073269101c28d46b228
+M
+demo/terraform/aks/outputs.tf,8/8/888611fa494a8076b40b98c130ac31cddcfdf973
+r
+Bdemo/aks-demo-subscriber/src/main/resources/application-local.yaml,6/8/68f809ab5f6db4ca00eca619209d537ae121fe1b
+‰
+Ydemo/aks-demo-subscriber/src/main/java/com/example/subscriber/config/MessageConsumer.java,c/8/c839111f311eeff34a2f397da490b074acfbeaf5
+ˆ
+Xdemo/aks-demo-subscriber/src/main/java/com/example/subscriber/config/EventHubConfig.java,b/1/b179264b6456535ffbfeff21b3a2885fd3134ea6
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+>
+demo/README.md,1/7/171dbefe11812477f4fb3cf5534aee26212d5d77
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+[
++demo/aks-demo-ehclient/docker/.dockerignore,2/3/23ab7683c5d50c1f297b70614c985f72ee6b097d
+X
+(demo/aks-demo-ehclient/docker/Dockerfile,e/c/ec591766e4c3d233d16b6b236f86a943524dfc9e
+‡
+Wdemo/aks-demo-publisher/src/main/java/com/example/publisher/EventHubPubApplication.java,8/e/8eb9b9ece70532287302d9ab7eeb13dd9b4a2b9f
+q
+Ademo/terraform/secondary/deployments/publisher_ten2_deployment.tf,0/a/0a4d1203f59adbc9fe1125f5f141005b19c5ef3d
+P
+ demo/terraform/secondary/main.tf,6/5/650766fc1814bf540400dd1092957eb795fa204e
 S
 #demo/terraform/secondary/outputs.tf,8/f/8fc153bced782e6941eab5324c7d672862fd3a2c
+U
+%demo/terraform/secondary/providers.tf,0/5/0549f3e8a1746db19e97ad77537fd12310ff26c5
+O
+demo/aks-demo-publisher/pom.xml,d/f/dfd7572657a2f41af2eebade7d2549174d5e5a77
+K
+demo/terraform/eventhubs.tf,9/d/9d49ff3cb3f9a8199a1f4a4d6d94e511c9ab0e05
+I
+demo/terraform/outputs.tf,3/f/3fa7fe44fb27bc274d08e339e55ec662eaa12449
+Q
+!demo/terraform/storageaccounts.tf,3/d/3ddb5ddde5817dd3faaee89c873b80ba839eb1c5
+P
+ demo/terraform/rbac_secondary.tf,7/6/76270988c21cf41c26143c9399380439ffd8f3a6

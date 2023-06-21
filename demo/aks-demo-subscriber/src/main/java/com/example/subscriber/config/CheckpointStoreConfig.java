@@ -1,6 +1,7 @@
 package com.example.publisher.config;
 
 import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.identity.WorkloadIdentityCredentialBuilder;
 import com.azure.storage.blob.BlobContainerClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -39,9 +40,10 @@ public class CheckpointStoreConfig {
     @Primary
     public CheckpointStore checkpointStoreClient2() {
         var blobContainerAsyncClient = new BlobContainerClientBuilder()
-                .credential(new DefaultAzureCredentialBuilder()
+                .credential(new WorkloadIdentityCredentialBuilder()
+                        .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
                         .tenantId(tenantId2)
-                        .managedIdentityClientId(clientId2)
+                        .clientId(clientId2)
                         .build())
                 .endpoint(endpoint2)
                 .buildAsyncClient();

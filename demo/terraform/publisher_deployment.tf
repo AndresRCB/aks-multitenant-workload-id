@@ -1,8 +1,8 @@
-resource "kubernetes_deployment" "publisherten2" {
+resource "kubernetes_deployment" "publisher" {
   metadata {
-    name      = "publisher-ten2"
+    name      = "publisher"
     labels    = {
-      app                           = "publisherten2"
+      app                           = "publisher"
       "azure.workload.identity/use" = "true"
     }
     namespace = kubernetes_namespace.main.id
@@ -12,19 +12,19 @@ resource "kubernetes_deployment" "publisherten2" {
 
     selector {
       match_labels = {
-        app = "publisherten2"
+        app = "publisher"
       }
     }
     template {
       metadata {
         labels = {
-          app = "publisherten2"
+          app = "publisher"
           "azure.workload.identity/use" = "true"
         }
       }
 
       spec {
-        service_account_name = local.secondary_service_account
+        service_account_name = local.publisher_service_account
         container {
           image             = "${data.azurerm_container_registry.main.login_server}/${local.demo_app_pub_image_name}:${local.demo_app_pub_image_tag}"
           name              = local.demo_app_pub_image_name
@@ -119,7 +119,7 @@ resource "kubernetes_deployment" "publisherten2" {
           }
           env {
             name = "spring_profiles_active"
-            value = "ten2"
+            value = "dev"
           }
           env {
             name = "LOGGING_LEVEL_COM_AZURE_IDENTITY_DEFAULTAZURECREDENTIAL"
@@ -135,7 +135,7 @@ resource "kubernetes_deployment" "publisherten2" {
   }
 
   depends_on = [
-    docker_registry_image.demo_app_publisher,time_sleep.federated_identity_credential, time_sleep.federated_identity_credential2
+    docker_registry_image.demo_app_publisher,time_sleep.federated_identity_credential
   ]
 }
 
