@@ -7,7 +7,7 @@ variable "location" {
 variable "application_name_primary" {
   type        = string
   description = "The name of your application"
-  default     = "demo-primary-tenant"
+  default     = "tenant1"
 }
 
 variable "tag" {
@@ -45,7 +45,7 @@ variable "subscription_id2" {
 variable "application_name_secondary" {
   type        = string
   description = "The name of your application"
-  default     = "demo-secondary-tenant"
+  default     = "tenant2"
 }
 
 #variable "container_registry_name" {

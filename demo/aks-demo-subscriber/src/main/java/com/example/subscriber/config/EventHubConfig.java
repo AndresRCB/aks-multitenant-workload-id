@@ -48,11 +48,16 @@ public class EventHubConfig {
     @Bean
     public EventHubConsumerClient eventHubConsumerClient2() {
         return new EventHubClientBuilder()
-                .credential(eventHubNamespace2, eventHubName2, new DefaultAzureCredentialBuilder()
-                        // .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
-                        .additionallyAllowedTenants("*")
-                        // .tenantId(tenantId2)
-                        .workloadIdentityClientId(clientId2)
+                .credential(eventHubNamespace2, eventHubName2, new WorkloadIdentityCredentialBuilder()
+                        .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
+                        .tenantId(tenantId2)
+                        .clientId(clientId2)
+                        // .credential(eventHubNamespace2, eventHubName2, new
+                        // DefaultAzureCredentialBuilder()
+                        // // .tokenFilePath(System.getenv("AZURE_FEDERATED_TOKEN_FILE"))
+                        // .additionallyAllowedTenants("*")
+                        // // .tenantId(tenantId2)
+                        // .workloadIdentityClientId(clientId2)
                         .build())
                 .consumerGroup(consumerGrp2)
                 .buildConsumerClient();

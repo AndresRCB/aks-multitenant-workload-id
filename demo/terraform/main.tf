@@ -8,7 +8,7 @@ terraform {
     }
     azurecaf = {
       source  = "aztfmod/azurecaf"
-      version = "1.2.16"
+      version = "2.0.0-preview3"
     }
     docker = {
       source  = "kreuzwerker/docker"
@@ -19,7 +19,7 @@ terraform {
 
 provider "azurerm" {
   subscription_id = var.subscription_id
-  tenant_id = var.tenant_id
+  tenant_id       = var.tenant_id
   features {
     key_vault {
       purge_soft_delete_on_destroy    = true
@@ -58,9 +58,9 @@ module "secondary-setup" {
 }
 
 provider "azurerm" {
-  alias = "second"
+  alias           = "second"
   subscription_id = var.subscription_id2
-  tenant_id = var.tenant_id2
+  tenant_id       = var.tenant_id2
 
   features {
     key_vault {
@@ -79,7 +79,7 @@ provider "azurerm" {
 
 data "azurerm_resource_group" "secondary" {
   provider = azurerm.second
-  name = module.secondary-setup.resource_group_name
+  name     = module.secondary-setup.resource_group_name
 }
 
 data "azurerm_kubernetes_cluster" "main" {

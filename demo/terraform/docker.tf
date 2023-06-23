@@ -68,7 +68,8 @@ resource "docker_image" "demo_app_ehclient" {
   build {
     dockerfile = "../aks-demo-ehclient/docker/Dockerfile"
     context    = "../"
-    tag        = ["${data.azurerm_container_registry.main.login_server}/${local.demo_app_ehclient_image_name}:${local.demo_app_ehclient_image_tag}"]
+    tag = ["${data.azurerm_container_registry.main.login_server}/${local.demo_app_ehclient_image_name}:${local.demo_app_ehclient_image_tag}",
+    "${data.azurerm_container_registry.main.login_server}/${local.demo_app_ehclient_image_name}:latest"]
   }
 
   depends_on = [

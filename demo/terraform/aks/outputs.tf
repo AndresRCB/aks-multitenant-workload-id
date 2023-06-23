@@ -54,3 +54,11 @@ output "oidc_issuer_url" {
   value       = azurerm_kubernetes_cluster.main.oidc_issuer_url
   description = "OIDC Issuer URL for the public cluster"
 }
+
+output "acr_admin_username" {
+  value = azurerm_container_registry.main.admin_username
+}
+
+output "acr_admin_password" {
+  value = azurerm_container_registry.main.admin_username
+}

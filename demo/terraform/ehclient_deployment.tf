@@ -46,6 +46,14 @@ resource "kubernetes_deployment" "ehclient" {
             name  = "tenantId2"
             value = module.secondary-setup.tenant_id
           }
+        #   env {
+        #     name = "JAVA_OPTS"
+        #     value = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+        #   }
+        #   port {
+        #     container_port = 5005
+        #     name = "jdwp"
+        #   }
         }
       }
     }
@@ -54,5 +62,29 @@ resource "kubernetes_deployment" "ehclient" {
   depends_on = [
     docker_registry_image.demo_app_ehclient,time_sleep.federated_identity_credential
   ]
+}
+
+# resource "kubernetes_ingress" "debug_port" {
+  
+# }
+
+resource "kubernetes_service" "ehclient_service" {
+    metadata {
+        name = "ehclient-service"
+        labels = {
+            app = "ehclient"
+        }
+        namespace = kubernetes_namespace.main.id
+    }
+    spec {
+        selector = {
+            app = "ehclient"
+        }
+        port {
+            port = 5005
+            target_port = 5005
+        }
+        type = "NodePort"
+    }
 }
 

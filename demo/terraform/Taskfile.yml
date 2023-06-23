@@ -1,12 +1,12 @@
-version: '3'
+version: "3"
 
 tasks:
   default:
     aliases: [apply]
     cmds:
       - rm -f .terraform.lock.hcl
-        - terragrunt apply -auto-approve --terragrunt-non-interactive
-        - terragrunt output -raw environment_variable_setup > .env
+      - terragrunt apply -auto-approve --terragrunt-non-interactive
+      - terragrunt output -raw environment_variable_setup > .env
     sources:
       - main.tf
       - outputs.tf
@@ -14,5 +14,24 @@ tasks:
       - providers.tf
   clean:
     cmds:
-      - terragrunt destroy -auto-approve -refresh=false --terragrunt-non-interactive
+      - terraform destroy -auto-approve -refresh=false
       - rm -f .env
+
+  # tokenfile:
+  #   cmds:
+  #     - |
+  #       sleep 10 &&  ## a better way is to query that this is running or trap and retry whole block
+  #       POD_NAME=$(kubectl get pods -n aadwi -l app=ehclient -o jsonpath='{.items[0].metadata.name}') && 
+  #       echo $POD_NAME &&
+  #       kubectl exec -n aadwi $POD_NAME -- sh -c 'tar -czf - -h /var/run/secrets/azure/tokens/azure-identity-token' > local-file.tar.gz
+  #     - tar -xzf local-file.tar.gz && rm local-file.tar.gz
+
+
+
+  ehclient:
+    cmds:
+      - terraform taint null_resource.mvn_package_demo_app_ehclient
+      - terraform taint docker_image.demo_app_ehclient
+      - terraform taint kubernetes_deployment.ehclient
+      - terraform apply -auto-approve 
+      #-target null_resource.mvn_package_demo_app_ehclient -target docker_image.demo_app_ehclient -target kubernetes_deployment.ehclient

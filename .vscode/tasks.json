@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "bridge-to-kubernetes.service",
+            "type": "bridge-to-kubernetes.service",
+            "service": "ehclient-service",
+            "ports": [
+                5005
+            ],
+            "targetCluster": "aksmultitenant-cluster",
+            "targetNamespace": "aadwi",
+            "useKubernetesServiceEnvironmentVariables": true
+        },
+        {
+            "label": "pull-toeknfile",
+            "type": "shell",
+            "command": "task tokenfile",
+            "options": {
+                "cwd": "${workspaceFolder}/demo/terraform/"
+            }
+        },
+        {
+            "label": "prepare-env",
+            "dependsOrder": "sequence",
+            "dependsOn": ["bridge-to-kubernetes.service", "pull-toeknfile"]
+          }
+    ]
+}

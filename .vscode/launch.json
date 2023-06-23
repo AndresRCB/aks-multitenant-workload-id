@@ -1,0 +1,37 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "SenderAAD",
+            "request": "launch",
+            "mainClass": "com.demo.ehclient.SenderAAD",
+            "projectName": "aks-demo-ehclient",
+            "preLaunchTask": "prepare-env",
+            "env": {"AZURE_FEDERATED_TOKEN_FILE_NFG": "${workspaceFolder}/demo/terraform/var/run/secrets/azure/tokens/azure-identity-token"}
+        },
+        {
+            "type": "java",
+            "name": "EventHubPubApplication",
+            "request": "launch",
+            "mainClass": "com.example.publisher.EventHubPubApplication",
+            "projectName": "publisher"
+        },
+        {
+            "type": "java",
+            "name": "EventHubSubApplication",
+            "request": "launch",
+            "mainClass": "com.example.subscriber.EventHubSubApplication",
+            "projectName": "subscriber"
+        }
+    ]
+}

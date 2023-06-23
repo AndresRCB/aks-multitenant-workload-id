@@ -1,0 +1,15 @@
+version: 0.1
+# enableFeatures:
+#   - ManagedIdentity
+
+volumeMounts:
+  - name: azure-identity-token
+    localPath: /tmp/tokens/pod_name
+
+env:
+  - name: AZURE_FEDERATED_TOKEN_FILE_LOCAL
+    value: $(volumeMounts:azure-identity-token)/azure-identity-token
+  - name: AZURE_FEDERATED_TOKEN_FILE
+    value: $(volumeMounts:azure-identity-token)/azure-identity-token
+  - name: AZURE_FEDERATED_TOKEN_FILE_WTT
+    value: foobar
