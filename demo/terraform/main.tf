@@ -99,6 +99,15 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.azurerm_kubernetes_cluster.main.kube_config.0.cluster_ca_certificate)
 }
 
+data "azurerm_client_config" "current" {}
+resource "azurerm_role_assignment" "self_push_acr" {
+  scope                = module.aks.acr_id
+  role_definition_name = "AcrPush"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
+
+# TODO: fix the issue with the registry_auth creds arent available
 provider "docker" {
   host = "unix:///var/run/docker.sock"
 

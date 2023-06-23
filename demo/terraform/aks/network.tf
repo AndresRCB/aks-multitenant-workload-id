@@ -16,7 +16,7 @@ resource "azurerm_subnet" "main" {
 }
 
 data "http" "myip" {
-  url = "http://api.ipify.org"
+  url = "http://4.ident.me"
 }
 
 resource "azurerm_network_security_group" "main" {

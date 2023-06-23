@@ -16,8 +16,7 @@
             "request": "launch",
             "mainClass": "com.demo.ehclient.SenderAAD",
             "projectName": "aks-demo-ehclient",
-            "preLaunchTask": "prepare-env",
-            "env": {"AZURE_FEDERATED_TOKEN_FILE_NFG": "${workspaceFolder}/demo/terraform/var/run/secrets/azure/tokens/azure-identity-token"}
+            "preLaunchTask": "bridge-to-kubernetes.service"
         },
         {
             "type": "java",

@@ -3,20 +3,44 @@ version: "3"
 tasks:
   default:
     aliases: [apply]
+    deps:
+      - tfinit
     cmds:
-      - rm -f .terraform.lock.hcl
-      - terragrunt apply -auto-approve --terragrunt-non-interactive
-      - terragrunt output -raw environment_variable_setup > .env
+      # - terraform init
+      # - terraform apply -auto-approve -target azurerm_container_registry.main -refresh=false
+      - terraform apply -auto-approve 
+
+    generates:
+      - .terraform.lock.hcl
+
+
+  tfinit:
+    cmds:
+      - terraform init
     sources:
+      - docker.tf
+      - ehclient_deployment.tf
+      - fedid_sa.tf
+      - locals.tf
       - main.tf
       - outputs.tf
+      - publisher_deployment.tf
+      - rbac_main.tf
+      - rbac_secondary.tf
+      - storageaccounts.tf
+      - subscriber_deployment.tf
       - variables.tf
-      - providers.tf
+    generates:
+      - .terraform.lock.hcl
+  
   clean:
     cmds:
       - terraform destroy -auto-approve -refresh=false
       - rm -f .env
 
+  kill:
+    cmds:
+      - rm -f terraform.tfstate terraform.tfstate.backup .terraform.lock.hcl
   # tokenfile:
   #   cmds:
   #     - |
@@ -25,8 +49,6 @@ tasks:
   #       echo $POD_NAME &&
   #       kubectl exec -n aadwi $POD_NAME -- sh -c 'tar -czf - -h /var/run/secrets/azure/tokens/azure-identity-token' > local-file.tar.gz
   #     - tar -xzf local-file.tar.gz && rm local-file.tar.gz
-
-
 
   ehclient:
     cmds:
