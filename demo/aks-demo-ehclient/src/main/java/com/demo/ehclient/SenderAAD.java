@@ -29,7 +29,8 @@ public class SenderAAD {
     private static final String clientId2 = System.getenv("clientId2");
 
     public static void main(String[] args) {
-        LinkedHashMap<String, String> map = new LinkedHashMap<>(Map.of("tenantId1", tenantId1, "clientid1", clientId1, "tenantid2", tenantId2,
+        LinkedHashMap<String, String> map = new LinkedHashMap<>(
+                Map.of("tenantId1", tenantId1, "clientid1", clientId1, "tenantid2", tenantId2,
                 "clientid2", clientId2));
 
         for (String key : map.keySet()) {
@@ -76,7 +77,8 @@ public class SenderAAD {
                 .build();
     }
 
-    // Fails with exception during DefaultCredential:status-code: 401, status-description: InvalidIssuer: Token issuer is invalid.
+    // Fails with exception during DefaultCredential:status-code: 401,
+    // status-description: InvalidIssuer: Token issuer is invalid.
     static TokenCredential getDefaultCredential() {
         return new DefaultAzureCredentialBuilder()
                 .additionallyAllowedTenants("*")
